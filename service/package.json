@@ -1,0 +1,43 @@
+{
+  "name": "ts-koa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon --exec 'ts-node' ./src/index.ts",
+    "build": "tsc",
+    "start": "cross-env NODE_ENV=production node ./dist/index.js --production",
+    "prd": "cross-env NODE_ENV=production pm2 start pm2.json"
+  },
+  "dependencies": {
+    "@hapi/joi": "^16.1.7",
+    "bluebird": "^3.7.1",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-router": "^7.4.0",
+    "lodash": "^4.17.15",
+    "log4js": "^6.0.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.7.10",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.29",
+    "@types/hapi__joi": "^16.0.3",
+    "@types/jsonwebtoken": "^8.3.5",
+    "@types/koa": "^2.0.52",
+    "@types/koa-router": "^7.0.42",
+    "@types/lodash": "^4.14.147",
+    "@types/mongoose": "^5.5.31",
+    "@types/redis": "^2.8.14",
+    "cross-env": "^6.0.3",
+    "nodemon": "^1.19.4",
+    "ts-node": "^8.5.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
+  }
+}
