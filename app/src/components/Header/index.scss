@@ -1,0 +1,11 @@
+.header {
+  background-color: #000;
+  &-item {
+    display: inline-block;
+    padding: 12px 16px;
+    color: #fff;
+  }
+  .active {
+    color: $hoverColor;
+  }
+}
