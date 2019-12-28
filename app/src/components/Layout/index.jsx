@@ -1,11 +1,15 @@
 import React from 'react';
-import Header from '../Header';
+
+import LeftNav from '../LeftNav';
+import './index.scss';
 
 const Layout = ({ children }) => {
   return (
     <div className="layout">
-      <Header />
-      {children}
+      <LeftNav />
+      <main className="main">
+        {children}
+      </main>
     </div>
   );
 };

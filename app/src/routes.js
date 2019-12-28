@@ -6,12 +6,12 @@ const AsyncHome = Loadable({
   loading: Loading,
 });
 
-const AsyncAbout = Loadable({
-  loader: () => import('pages/About'),
+const AsyncUser = Loadable({
+  loader: () => import('pages/User'),
   loading: Loading,
 });
 
 export default [
-  { path: '/', name: '首页', component: AsyncHome },
-  { path: '/about', name: '关于我', component: AsyncAbout },
+  { path: '/', name: '弹幕设置', component: AsyncHome },
+  { path: '/User', name: '用户设置', component: AsyncUser },
 ];

@@ -7,6 +7,7 @@ const DIST_PATH = path.resolve(__dirname, '../dist/renderer');
 
 module.exports = {
   entry: ['./src/index.js'],
+  target: 'electron-renderer',
   resolve: {
     extensions: ['.jsx', '.js'],
     alias: {

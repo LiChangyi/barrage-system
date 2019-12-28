@@ -10,7 +10,7 @@ const App = () => (
   <Router>
     <Layout>
       <Switch>
-        {routes.map(route => (
+        {routes.map((route) => (
           <Route
             path={route.path}
             key={route.name}

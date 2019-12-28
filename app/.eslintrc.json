@@ -21,7 +21,8 @@
 		"arrow-body-style":"off",
 		"react/prop-types": "off",
 		"import/no-extraneous-dependencies": "off",
-		"comma-dangle": "off"
+		"comma-dangle": "off",
+		"react/jsx-props-no-spreading": "off"
 	},
 	"settings": {
 		"import/resolver": {

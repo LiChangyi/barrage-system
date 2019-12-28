@@ -12,6 +12,8 @@ function createWindow() {
   });
 }
 
+app.setName('barrage-system');
+console.log(app.getName());
 // 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法
 app.on('ready', createWindow);
 
