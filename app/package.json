@@ -1,7 +1,7 @@
 {
   "name": "barrage-system",
   "version": "1.0.0",
-  "description": "",
+  "description": "弹幕系统",
   "main": "index.js",
   "scripts": {
     "start": "npm run dev",
@@ -16,7 +16,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "李昌义",
   "license": "ISC",
   "dependencies": {
     "antd": "^3.26.2",
