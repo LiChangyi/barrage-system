@@ -11,7 +11,17 @@ const AsyncUser = Loadable({
   loading: Loading,
 });
 
+const AsyncDisplay = Loadable({
+  loader: () => import('pages/Display'),
+  loading: Loading,
+});
+
+
+export const displayRoute = {
+  path: '/display', name: '弹幕显示', component: AsyncDisplay
+};
+
 export default [
   { path: '/', name: '弹幕设置', component: AsyncHome },
-  { path: '/User', name: '用户设置', component: AsyncUser },
+  { path: '/User', name: '用户设置', component: AsyncUser }
 ];

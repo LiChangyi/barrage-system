@@ -4,22 +4,30 @@ import { hot } from 'react-hot-loader/root';
 
 import Layout from 'components/Layout';
 
-import routes from './routes';
+import routes, { displayRoute } from './routes';
 
 const App = () => (
   <Router>
-    <Layout>
-      <Switch>
-        {routes.map((route) => (
-          <Route
-            path={route.path}
-            key={route.name}
-            exact
-            component={route.component}
-          />
-        ))}
-      </Switch>
-    </Layout>
+    <Switch>
+      <Route
+        path={displayRoute.path}
+        key={displayRoute.name}
+        exact
+        component={displayRoute.component}
+      />
+      <Layout>
+        <Switch>
+          {routes.map((route) => (
+            <Route
+              path={route.path}
+              key={route.name}
+              exact
+              component={route.component}
+            />
+          ))}
+        </Switch>
+      </Layout>
+    </Switch>
   </Router>
 );
 

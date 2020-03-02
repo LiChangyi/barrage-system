@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Form, Select, Switch, Row, Col, Button, message
+  Form, Select, Switch, Row, Col, Button, message, Input
 } from 'antd';
 import _ from 'lodash';
 import Store from 'electron-store';
@@ -15,7 +15,7 @@ const preCls = 'home';
 
 const Home = ({ form }) => {
   const [loading, setLoading] = useState(false);
-  const { getFieldDecorator, getFieldValue } = form;
+  const { getFieldDecorator, getFieldValue, setFieldsValue } = form;
   const store = new Store();
 
   const barrageConfigure = store.get(BARRAGE_CONFIGURE);
@@ -32,11 +32,25 @@ const Home = ({ form }) => {
       setLoading(false);
     });
   };
+  // 最小字号变化
+  const fontSizeMinChange = (value) => {
+    if (value > getFieldValue('fontSizeMax')) {
+      setFieldsValue({ fontSizeMax: value });
+    }
+  };
+
   return (
     <div className={preCls}>
       <Form
         {...formItemLayout}
       >
+        <FormItem label="弹幕API">
+          {getFieldDecorator('api', {
+            initialValue: _.get(barrageConfigure, 'api', '')
+          })(
+            <Input />
+          )}
+        </FormItem>
         <FormItem label="弹幕位置">
           {getFieldDecorator('position', {
             initialValue: _.get(barrageConfigure, 'position', 'full')
@@ -54,7 +68,9 @@ const Home = ({ form }) => {
               {getFieldDecorator('fontSizeMin', {
                 initialValue: _.get(barrageConfigure, 'fontSizeMin', fontSizeMenu[0])
               })(
-                <Select>
+                <Select
+                  onChange={fontSizeMinChange}
+                >
                   {fontSizeMenu.map((size) => (
                     <Select.Option key={size}>{size}</Select.Option>
                   ))}

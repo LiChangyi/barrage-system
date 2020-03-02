@@ -11,7 +11,7 @@ export default () => {
     }
   });
 
-  const url = isDev() ? 'http://localhost:8080' : `file://${path.resolve(__dirname, '..')}/dist/index.html`;
+  const url = isDev() ? 'http://localhost:8080' : `file://${path.resolve(__dirname, '..')}/dist/renderer/index.html`;
   window.loadURL(url);
 
   return window;

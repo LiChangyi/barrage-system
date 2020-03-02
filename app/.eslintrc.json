@@ -22,7 +22,8 @@
 		"react/prop-types": "off",
 		"import/no-extraneous-dependencies": "off",
 		"comma-dangle": "off",
-		"react/jsx-props-no-spreading": "off"
+		"react/jsx-props-no-spreading": "off",
+		"no-plusplus": "off"
 	},
 	"settings": {
 		"import/resolver": {
