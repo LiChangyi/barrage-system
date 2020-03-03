@@ -2,13 +2,18 @@ import { Schema, Document, Model, model } from 'mongoose';
 import { md5 } from '../utils';
 
 export interface IUser extends Document {
-  name: string;
+  username: string;
+  nickname: String;
   password: string;
   role: string;
 }
 
 const userSchema: Schema = new Schema({
-  name: {
+  username: {
+    type: String,
+    required: true
+  },
+  nickname: {
     type: String,
     required: true
   },
@@ -22,11 +27,9 @@ const userSchema: Schema = new Schema({
   }
 });
 
-userSchema.pre('save', function (this: IUser, next: any) {
+userSchema.pre('validate', function (this: IUser, next: any) {
   // 密码进行 加密
-  if (this.isModified('password')) {
-    this.password = md5(this.password);
-  }
+  this.password = md5(this.password);
   next();
 });
 

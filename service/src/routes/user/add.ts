@@ -1,33 +1,36 @@
-import { BaseContext } from "koa";
-import * as Joi from '@hapi/joi';
+import * as joi from '@hapi/joi';
+
+import { IRoute, IContext } from '../../types';
+import { User } from '../../model/user';
 import boom from '../../utils/boom';
-import { IUser, User } from '../../model/user';
 
-/**
- * 添加用户
- */
-
-export default {
-  auth: ['admin'],
+const Add: IRoute = {
+  path: '/',
+  method: 'POST',
   validate: {
-    payload: Joi.object({
-      name: Joi.string().min(4).max(12).required().description('用户名'),
-      password: Joi.string().min(4).max(12).required().description('密码')
+    payload: joi.object({
+      username: joi.string().min(4).max(12).required().description('用户名'),
+      nickname: joi.string().min(2).max(12).required().description('用户昵称'),
+      password: joi.string().min(6).max(12).required().description('用户密码'),
     })
   },
-  handle: async (ctx: BaseContext) => {
+  handle: async (ctx: IContext) => {
+    const { username, nickname, password } = ctx.request.body;
     try {
-      const { name, password } = ctx.request.body;
-      // 判断用户名是否重复
-      const repeatName = await User.findOne({name});
-      if (repeatName) {
-        return boom(400, ctx, '用户名重复');
+      // 是否存在
+      const exist = await User.findOne({ username });
+      if (exist) {
+        return boom(400, ctx, 'username重复');
       }
-      const user: IUser = new User({ name, password });
-      const res = await user.save();
-      ctx.body = res;
+      // 入库
+      await User.create({username, password, nickname});
+      ctx.body = {
+        message: '创建成功'
+      }
     } catch (err) {
       ctx.throw(500, err);
     }
   }
 };
+
+export default Add;

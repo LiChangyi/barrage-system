@@ -1,15 +1,15 @@
-import { BaseContext } from "koa";
 import * as jwt from 'jsonwebtoken';
 import * as _ from 'lodash';
 import boom from '../utils/boom';
 import * as Joi from '@hapi/joi';
 import { TOKEN_SUFFIX } from "../utils/constant";
+import { IContext } from "../types";
 
 /**
  * 传递的参数校验 和 授权校验
  */
 
-const authValidate = async (ctx: BaseContext, auth: string[]) => {
+const authValidate = async (ctx: IContext, auth: string[]) => {
   const token = ctx.get('token');
   if (!token) {
     boom(401, ctx);
@@ -33,7 +33,7 @@ const authValidate = async (ctx: BaseContext, auth: string[]) => {
 };
 
 export default (validate: any): any => {  
-  return async (ctx: BaseContext, next: any) => {
+  return async (ctx: IContext, next: any) => {
     const payload = _.get(validate, 'payload', null);
     const query = _.get(validate, 'query', null);
     const auth = _.get(validate, 'auth', []);
@@ -49,11 +49,11 @@ export default (validate: any): any => {
     let error = null;
     if (query) {
       const queryString = ctx.query;
-      error = Joi.validate(queryString, query).error;
+      error = query.validate(queryString).error;
     }
     if (payload) {
       const body = ctx.request.body;
-      error = Joi.validate(body, payload).error;
+      error = payload.validate(body).error;
     }
     
     if (error) {
