@@ -20,7 +20,7 @@ class BarrageQueue {
     // 当前弹幕集合
     this.tasks = [];
     // 当前高度
-    this.elHeight = 800;
+    this.elHeight = this.el.clientHeight;
     // this.elHeight = this.el.clientHeight;
     // 轨道数目
     this.orbitNumber = Math.floor(this.elHeight / BARRAGE_HEIGHT);
@@ -47,10 +47,10 @@ class BarrageQueue {
     if (find && this.tasks.length) {
       find.free = false;
       const task = this.tasks.shift();
-      const width = task.context.length * 24 + 20;
+      const width = task.content.length * 24 + 20;
       let dom = document.createElement('div');
       dom.className = 'barrage';
-      dom.innerText = task.context;
+      dom.innerText = task.content;
       dom.style.top = `${find.y}px`;
       dom.style.width = `${width}px`;
       const duration = 10000 + (2 * task.duration);
