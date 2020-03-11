@@ -8,8 +8,9 @@ import _ from 'lodash';
 const BARRAGE_HEIGHT = 40;
 
 class BarrageQueue {
-  constructor(el) {
+  constructor(el, options = {}) {
     this.el = el;
+    this.colorful = options.colorful;
     // 初始化数据
     this.init();
   }
@@ -21,7 +22,6 @@ class BarrageQueue {
     this.tasks = [];
     // 当前高度
     this.elHeight = this.el.clientHeight;
-    // this.elHeight = this.el.clientHeight;
     // 轨道数目
     this.orbitNumber = Math.floor(this.elHeight / BARRAGE_HEIGHT);
     // 轨道数据
@@ -32,6 +32,10 @@ class BarrageQueue {
         free: true
       });
     }
+  }
+
+  setColorful(value) {
+    this.colorful = value;
   }
 
   // 添加弹幕
@@ -53,6 +57,9 @@ class BarrageQueue {
       dom.innerText = task.content;
       dom.style.top = `${find.y}px`;
       dom.style.width = `${width}px`;
+      if (this.colorful) {
+        dom.style.color = task.color;
+      }
       const duration = 10000 + (2 * task.duration);
       dom.style.animation = `run ${duration}ms linear`;
       // clear

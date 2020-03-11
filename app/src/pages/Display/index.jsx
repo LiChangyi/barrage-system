@@ -11,24 +11,28 @@ const preCls = 'display-page';
 class Display extends Component {
   constructor(props) {
     super(props);
-    const { position } = getGlobal('barrageConfigure');
+    const { position, colorful = false } = getGlobal('barrageConfigure');
     this.state = {
-      height: position === 'full' ? 100 : 50
+      height: position === 'full' ? 100 : 50,
+      colorful
     };
   }
 
   componentDidMount() {
-    this.barrageQueue = new BarrageQueue(this.el);
+    const { colorful } = this.state;
+    this.barrageQueue = new BarrageQueue(this.el, { colorful });
     ipcRenderer.on(DISPLAY_WINDOW_RECEIVE, ((e, { name, value }) => {
       if (name === 'position') {
         this.setState({
           height: value === 'full' ? 100 : 50
         });
+        this.barrageQueue.init();
+      }
+      if (name === 'colorful') {
+        this.barrageQueue.setColorful(value);
       }
       if (name === 'addBarrage') {
-        this.barrageQueue.add({
-          content: value
-        });
+        this.barrageQueue.add(value);
       }
     }));
   }

@@ -1,12 +1,16 @@
-import { fromJS } from 'immutable';
+import _ from 'lodash';
 import { PUSH_ONE_BARRAGE } from './actionType';
 
-const defaultState = fromJS([]);
+const defaultState = [];
 
 export default (state = defaultState, action) => {
   if (action.type === PUSH_ONE_BARRAGE) {
-    // 处理
-    console.log(action);
+    const data = _.clone(state);
+    if (data.length > 100) {
+      data.shift();
+    }
+    data.push(action.data);
+    return data;
   }
   return state;
 };

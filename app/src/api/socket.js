@@ -2,6 +2,7 @@
 import { ipcRenderer } from 'electron';
 import io from 'socket.io-client';
 import { message } from 'antd';
+import _ from 'lodash';
 
 import { BASE_API, DISPLAY_WINDOW_ADD_ONE_BARRAGE } from '../utils/constant';
 import store from '../store';
@@ -17,13 +18,9 @@ const initEvents = () => {
     if (reconnectingMsgHide) {
       reconnectingMsgHide();
     }
-    setTimeout(() => {
-      socket.emit('addBarrage', '666');
-    }, 2000);
     message.success('连接弹幕服务成功!');
   });
   socket.on('receiveBarrage', (data) => {
-    console.log('接收到弹幕', data);
     store.dispatch(receiveOneBarrage(data));
     // 通知 display window
     const { open, openWindow } = store.getState().barrageConfigure.toJSON();
@@ -38,6 +35,23 @@ const initEvents = () => {
       key: 'reconnecting'
     });
   });
+};
+
+// 发送mock弹幕
+export const sendMockBarrage = (num = 100) => {
+  if (socket) {
+    for (let i = 0; i < num; i++) {
+      // eslint-disable-next-line no-loop-func
+      setTimeout(() => {
+        socket.emit('addBarrage', {
+          id: _.uniqueId(),
+          nickname: `李昌义${i}`,
+          content: `弹幕内容_${i}`,
+          color: 'red'
+        });
+      }, _.random(1000, 5000));
+    }
+  }
 };
 
 // 创建连接
