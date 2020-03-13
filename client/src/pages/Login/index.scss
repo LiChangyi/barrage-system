@@ -1,0 +1,36 @@
+.login {
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  height: 100%;
+  &-title {
+    color: #302c2c;
+    font-size: 32px;
+  }
+  .ant-form-item-label label {
+    color: #302c2c;
+  }
+  .ant-input-password, .ant-input {
+    background: transparent !important;
+    border-width: 0 0 1px;
+    outline: none;
+    box-shadow: none !important;
+    transition: border .8s;
+    &:hover {
+      border-width: 0 0 1px !important;
+      border-color: red;
+    }
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  &-info {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    margin: 0 -20px;
+    text-align: center;
+    font-size: 16px;
+    color: #302c2c;
+  }
+}

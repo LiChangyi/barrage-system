@@ -17,14 +17,14 @@ interface IConfig {
 
 const config: IConfig = {
   mongodb: {
-    url: 'mongodb://localhost:27017/test2',
-    user: 'root',
-    password: 'root',
+    url: 'mongodb://localhost:27017/barrage',
+    user: 'barrage',
+    password: '123456',
     authSource: 'admin'
   },
   redis: {
     host: '127.0.0.1',
-    password: '123456'
+    password: 'root'
   }
 };
 

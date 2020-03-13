@@ -5,7 +5,7 @@ import boom from '../utils/boom';
  * 自定义 错误的信息返回 信息 
  */
 
-export default async (ctx: BaseContext, next: any) => {
+export default async (ctx: any, next: any) => {
   try {
     await next();
     // 重写 404 和 405 的消息

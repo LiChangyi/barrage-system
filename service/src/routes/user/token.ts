@@ -3,22 +3,24 @@
  * 如果登录失败超过 5次 进行 ip 锁定
  */
 import * as Joi from '@hapi/joi';
-import { BaseContext } from 'koa';
 import { User } from '../../model/user';
 import { md5, createToken } from '../../utils';
 import boom from '../../utils/boom';
 import { PWD_ERROR } from '../../utils/constant';
 import { convertTime } from './utils';
+import { IContext, IRoute } from '../../types';
 
-export default {
+const route:IRoute = {
+  method: 'POST',
+  path: '/token',
   validate: {
     payload: Joi.object({
-      name: Joi.string().min(4).max(12).required().description('用户名'),
-      password: Joi.string().min(4).max(12).required().description('密码')
+      username: Joi.string().min(4).max(12).required().description('用户名'),
+      password: Joi.string().min(6).max(12).required().description('密码')
     })
   },
-  handle: async (ctx: BaseContext) => {
-    const { name, password } = ctx.request.body;
+  handle: async (ctx: IContext) => {
+    const { username, password } = ctx.request.body;
     try {
       const redisKey = `loginFail:${ctx.ip}`;
       // 获取登录失败的次数
@@ -28,7 +30,7 @@ export default {
         return boom(400, ctx, `登录失败次数已经超过${count}次，请${convertTime(time, PWD_ERROR.time)}过后再次尝试`);
       }
       const user = await User.findOne({
-        name,
+        username,
         password: md5(password)
       }, {
         password: 0
@@ -49,3 +51,5 @@ export default {
     }
   }
 };
+
+export default route;

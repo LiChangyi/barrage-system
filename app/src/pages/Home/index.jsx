@@ -1,115 +1,80 @@
-import React, { useState } from 'react';
-import {
-  Form, Select, Switch, Row, Col, Button, message, Input
-} from 'antd';
-import _ from 'lodash';
-import Store from 'electron-store';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Switch, Radio } from 'antd';
 
+import BarrageBox from './BarrageBox';
+import { barragePositionMap } from '../../utils/constant';
+import { setBarrageConfigure } from '../../store/barrageConfigure/action';
 import './index.scss';
-import {
-  barragePositionMap, fontSizeMenu, tailFormItemLayout, formItemLayout, BARRAGE_CONFIGURE
-} from '../../utils/constant';
 
-const FormItem = Form.Item;
 const preCls = 'home';
 
-const Home = ({ form }) => {
-  const [loading, setLoading] = useState(false);
-  const { getFieldDecorator, getFieldValue, setFieldsValue } = form;
-  const store = new Store();
-
-  const barrageConfigure = store.get(BARRAGE_CONFIGURE);
-  // 保存配置
-  const saveConfigure = () => {
-    const { validateFieldsAndScroll } = form;
-    validateFieldsAndScroll((errors, values) => {
-      if (errors) {
-        return;
-      }
-      setLoading(true);
-      store.set(BARRAGE_CONFIGURE, values);
-      message.success('保存配置成功');
-      setLoading(false);
-    });
-  };
-  // 最小字号变化
-  const fontSizeMinChange = (value) => {
-    if (value > getFieldValue('fontSizeMax')) {
-      setFieldsValue({ fontSizeMax: value });
-    }
-  };
-
+const Home = ({ barrageConfigure, propsSetBarrageConfigure }) => {
   return (
     <div className={preCls}>
-      <Form
-        {...formItemLayout}
-      >
-        <FormItem label="弹幕API">
-          {getFieldDecorator('api', {
-            initialValue: _.get(barrageConfigure, 'api', '')
-          })(
-            <Input />
-          )}
-        </FormItem>
-        <FormItem label="弹幕位置">
-          {getFieldDecorator('position', {
-            initialValue: _.get(barrageConfigure, 'position', 'full')
-          })(
-            <Select>
-              {barragePositionMap.map(({ key, name }) => {
-                return (<Select.Option key={key} value={key}>{name}</Select.Option>);
-              })}
-            </Select>
-          )}
-        </FormItem>
-        <FormItem label="字体大小">
-          <Row>
-            <Col span={6}>
-              {getFieldDecorator('fontSizeMin', {
-                initialValue: _.get(barrageConfigure, 'fontSizeMin', fontSizeMenu[0])
-              })(
-                <Select
-                  onChange={fontSizeMinChange}
-                >
-                  {fontSizeMenu.map((size) => (
-                    <Select.Option key={size}>{size}</Select.Option>
-                  ))}
-                </Select>
-              )}
-            </Col>
-            <Col span={2} style={{ textAlign: 'center' }}>~</Col>
-            <Col span={6}>
-              {getFieldDecorator('fontSizeMax', {
-                initialValue: _.get(barrageConfigure, 'fontSizeMax', fontSizeMenu[fontSizeMenu.length - 1])
-              })(
-                <Select>
-                  {fontSizeMenu.map((size) => (
-                    <Select.Option
-                      key={size}
-                      disabled={getFieldValue('fontSizeMin') > size}
-                    >
-                      {size}
-                    </Select.Option>
-                  ))}
-                </Select>
-              )}
-            </Col>
-          </Row>
-        </FormItem>
-        <FormItem label="彩色字体">
-          {getFieldDecorator('isColorful', {
-            valuePropName: 'checked',
-            initialValue: _.get(barrageConfigure, 'isColorful', true)
-          })(
-            <Switch checkedChildren="开" unCheckedChildren="关" />
-          )}
-        </FormItem>
-        <FormItem {...tailFormItemLayout} style={{ textAlign: 'right' }}>
-          <Button type="primary" loading={loading} onClick={saveConfigure}>保存</Button>
-        </FormItem>
-      </Form>
+      <BarrageBox
+        open={barrageConfigure.open}
+      />
+      <div className={`${preCls}-tool`}>
+        <div className={`${preCls}-tool-item`}>
+          <span className={`${preCls}-tool-item-label`}>弹幕位置</span>
+          <Radio.Group
+            name="position"
+            value={barrageConfigure.position}
+            onChange={propsSetBarrageConfigure}
+          >
+            {barragePositionMap.map(({ value, name }) => (
+              <Radio.Button key={value} value={value}>{name}</Radio.Button>
+            ))}
+          </Radio.Group>
+        </div>
+        <div className={`${preCls}-tool-item`}>
+          <span className={`${preCls}-tool-item-label`}>多彩字体</span>
+          <Switch
+            name="colorful"
+            checked={barrageConfigure.colorful}
+            checkedChildren="开"
+            unCheckedChildren="关"
+            onChange={(val) => propsSetBarrageConfigure('colorful', val)}
+          />
+        </div>
+        <div className={`${preCls}-tool-item`}>
+          <span className={`${preCls}-tool-item-label`}>弹幕</span>
+          <Switch
+            name="open"
+            checked={barrageConfigure.open}
+            checkedChildren="开"
+            unCheckedChildren="关"
+            onChange={(val) => propsSetBarrageConfigure('open', val)}
+          />
+        </div>
+        <div className={`${preCls}-tool-item`}>
+          <span className={`${preCls}-tool-item-label`}>桌面弹幕</span>
+          <Switch
+            disabled={!barrageConfigure.open}
+            name="openWindow"
+            checked={barrageConfigure.open && barrageConfigure.openWindow}
+            checkedChildren="开"
+            unCheckedChildren="关"
+            onChange={(val) => propsSetBarrageConfigure('openWindow', val)}
+          />
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Form.create()(Home);
+export default connect(
+  (state) => ({ barrageConfigure: state.barrageConfigure.toJS() }),
+  (dispatch) => ({
+    propsSetBarrageConfigure(key, val = '') {
+      let name = key;
+      let value = val;
+      if (typeof key !== 'string') {
+        name = key.target.name;
+        value = key.target.value;
+      }
+      dispatch(setBarrageConfigure({ name, value }));
+    }
+  })
+)(Home);
