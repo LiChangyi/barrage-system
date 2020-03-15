@@ -1,5 +1,17 @@
-.about {
-  text-align: center;
-  font-size: 28px;
-  padding: 20px;
+.user {
+  font-size: 16px;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  &-userinfo {
+    flex: 0 0 45px;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $borderColor;
+    &-name {
+      font-size: 20px;
+    }
+  }
 }

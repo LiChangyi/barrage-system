@@ -13,11 +13,20 @@ export const barrageDefaultConfigure = {
   position: 'full',
   colorful: true,
   open: true,
-  openWindow: false
+  openWindow: false,
+  serviceApi: 'http://127.0.0.1:3000'
 };
 
 // 保存弹幕设置到本地的KEY
 export const BARRAGE_CONFIGURE = 'barrageConfigure';
+// 保存用户数据到本地
+export const SAVE_USERINFO = 'userinfo';
+// 用户名正则
+export const USERNAME_REG = /^[a-zA-Z][a-zA-Z0-9]{3,11}$/;
+// 密码正则
+export const PASSWORD_REG = /^[a-zA-Z0-9]{6,12}$/;
+// URL正则
+export const URL_REG = /https?:\/\/([^/:]+)(:\d*)?/;
 
 export const BASE_API = 'http://127.0.0.1:3000';
 

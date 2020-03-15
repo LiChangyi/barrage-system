@@ -22,6 +22,16 @@ export const displayRoute = {
 };
 
 export default [
-  { path: '/', name: '弹幕设置', component: AsyncHome },
-  { path: '/User', name: '用户设置', component: AsyncUser }
+  {
+    path: '/',
+    name: '弹幕设置',
+    component: AsyncHome,
+    shouldAuth: true
+  },
+  {
+    path: '/User',
+    name: '用户中心',
+    component: AsyncUser,
+    shouldAuth: false
+  }
 ];

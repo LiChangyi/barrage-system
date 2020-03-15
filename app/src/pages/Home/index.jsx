@@ -65,7 +65,9 @@ const Home = ({ barrageConfigure, propsSetBarrageConfigure }) => {
 };
 
 export default connect(
-  (state) => ({ barrageConfigure: state.barrageConfigure.toJS() }),
+  (state) => ({
+    barrageConfigure: state.barrageConfigure.toJS()
+  }),
   (dispatch) => ({
     propsSetBarrageConfigure(key, val = '') {
       let name = key;
