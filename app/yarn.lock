@@ -3021,6 +3021,11 @@ dayjs@^1.8.18:
   resolved "http://bnpm.byted.org/dayjs/download/dayjs-1.8.21.tgz#98299185b72b9b679f31c7ed987b63923c961552"
   integrity sha1-mCmRhbcrm2efMcftmHtjkjyWFVI=
 
+dayjs@^1.8.23:
+  version "1.8.23"
+  resolved "http://bnpm.byted.org/dayjs/download/dayjs-1.8.23.tgz#07b5a8e759c4d75ae07bdd0ad6977f851c01e510"
+  integrity sha1-B7Wo51nE11rge90K1pd/hRwB5RA=
+
 debounce-fn@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npm.taobao.org/debounce-fn/download/debounce-fn-3.0.1.tgz#034afe8b904d985d1ec1aa589cd15f388741d680"

@@ -9,37 +9,88 @@
     padding: 8px 12px;
     &-item {
       font-size: 14px;
+      &-time {
+        margin-right: 4px;
+        opacity: 0.6;
+      }
       &-username {
         margin-right: 4px;
       }
-    } 
-  }
-  &-tool {
-    flex: 0 0 58px;
-    line-height: 58px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    &-item {
-      margin: 0 8px;
-      &-label {
-        font-size: 16px;
-        margin-right: 6px;
-        vertical-align: middle;
+      &-content {
+        word-break: break-all;
       }
     }
   }
-  &-no-open {
-    position: relative;
-    &-wrap {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 32px;
+  &-footer {
+    flex: 0 0 100px;
+  }
+  .home &-chat-box {
+    padding: 2px 12px;
+    font-size: 14px;
+    line-height: 20px;
+    height: 84px;
+    display: block;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    resize: none;
+  }
+  &-tool {
+    height: 32px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid $borderColor;
+    &-item {
+      margin: 0 4px;
     }
-    &-message {
-      margin-left: 12px;
+    &-right {
+      display: flex;
+      align-items: center;
+      .ant-select {
+        height: 20px;
+        margin-right: 8px;
+        .ant-select-selector {
+          height: 20px;
+          background-color: inherit;
+        }
+        .ant-select-arrow {
+          display: none;
+        }
+      }
+    } 
+  }
+  &-btns {
+    display: flex;
+    align-items: center;
+  }
+  .anticon {
+    font-size: 16px;
+    cursor: pointer;
+  }
+  &-position {
+    &-box {
+      display: flex;
+    }
+    &-item {
+      width: 40px;
+      text-align: center;
+      cursor: pointer;
+      .anticon {
+        display: block;
+        margin: 2px auto;
+        font-size: 30px;
+      }
+      &-label {
+        font-size: 12px;
+      }
+    }
+  }
+  &-select-color {
+    .ant-select-item {
+      height: 20px;
+      min-height: 20px;
     }
   }
 }

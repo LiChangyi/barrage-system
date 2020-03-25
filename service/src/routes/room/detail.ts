@@ -15,7 +15,6 @@ const detail: IRoute = {
       const user:IUser | null = await User.findOne({ _id: uid });
       // 根据uid去寻找房间
       const exist = await Room.findOne({ user });
-      console.log(user, exist);
       if (exist) {
         return ctx.body = exist;
       }
@@ -25,7 +24,6 @@ const detail: IRoute = {
         user: uid,
         status: false
       });
-      console.log(room);
       await room.save();
       ctx.body = room;
     } catch(err) {

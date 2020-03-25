@@ -5,7 +5,6 @@ import { ConfigProvider } from 'antd';
 
 import zhCN from 'antd/es/locale/zh_CN';
 
-
 import App from './App';
 import store from './store';
 import './scss/global.scss';

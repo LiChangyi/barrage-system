@@ -26,11 +26,16 @@ const update: IRoute = {
       }
       if (Object.prototype.hasOwnProperty.call(payload, 'status')) {
         // 在 redis 中开启/关闭相应的直播间
-        const redisKey = `room:${roomId}`;
+        const redisRoomKey = `room:${roomId}`;
+        // 置入当前uid的room
+        const redisOwnKey = `userRoom:${uid}`;
         if (payload.status) {
-          await ctx.redis.setAsync(redisKey, true);
+          await ctx.redis.setAsync(redisRoomKey, true);
+          await ctx.redis.setAsync(redisOwnKey, roomId);
         } else {
-          await ctx.redis.delAsync(redisKey);
+          // TODO: 在socket中删除，当前房间的用户
+          await ctx.redis.delAsync(redisRoomKey);
+          await ctx.redis.delAsync(redisOwnKey);
         }
       }
 

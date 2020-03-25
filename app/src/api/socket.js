@@ -2,9 +2,8 @@
 import { ipcRenderer } from 'electron';
 import io from 'socket.io-client';
 import { message } from 'antd';
-import _ from 'lodash';
 
-import { BASE_API, DISPLAY_WINDOW_ADD_ONE_BARRAGE } from '../utils/constant';
+import { DISPLAY_WINDOW_ADD_ONE_BARRAGE } from '../utils/constant';
 import store from '../store';
 import { receiveOneBarrage } from '../store/barrage/action';
 
@@ -12,21 +11,39 @@ let socket = null;
 // 重连时的message回调
 let reconnectingMsgHide = null;
 
+// 断开连接
+export const closeConnect = () => {
+  // message.success('断开连接成功');
+  if (!socket) {
+    return true;
+  }
+  socket.close();
+  if (reconnectingMsgHide) {
+    reconnectingMsgHide();
+  }
+  return true;
+};
+
 // 初始化事件
 const initEvents = () => {
   socket.on('connect', () => {
     if (reconnectingMsgHide) {
       reconnectingMsgHide();
     }
-    message.success('连接弹幕服务成功!');
   });
   socket.on('receiveBarrage', (data) => {
     store.dispatch(receiveOneBarrage(data));
     // 通知 display window
-    const { open, openWindow } = store.getState().barrageConfigure.toJSON();
-    if (open && openWindow) {
+    const { openWindow } = store.getState().barrageConfigure.toJSON();
+    if (openWindow) {
       ipcRenderer.send(DISPLAY_WINDOW_ADD_ONE_BARRAGE, data);
     }
+  });
+  socket.on('reconnect_attempt', () => {
+    const { token } = store.getState().user.toJS();
+    socket.io.opts.extraHeaders = {
+      token
+    };
   });
   socket.on('reconnecting', (num) => {
     reconnectingMsgHide = message.loading({
@@ -35,47 +52,53 @@ const initEvents = () => {
       key: 'reconnecting'
     });
   });
-};
-
-// 发送mock弹幕
-export const sendMockBarrage = (num = 100) => {
-  if (socket) {
-    for (let i = 0; i < num; i++) {
-      // eslint-disable-next-line no-loop-func
-      setTimeout(() => {
-        socket.emit('addBarrage', {
-          id: _.uniqueId(),
-          nickname: `李昌义${i}`,
-          content: `弹幕内容_${i}`,
-          color: 'red'
-        });
-      }, _.random(1000, 5000));
+  const systemMsgNotic = (data) => {
+    if (['tokenError', 'roomError'].includes(data.type)) {
+      message.error(data.message);
+    } else if (['connectSuccsss'].includes(data.type)) {
+      message.success('加入房间成功');
+    } else {
+      message.info(data.type + data.message);
     }
-  }
+  };
+  socket.on('systemMsg', (data) => {
+    systemMsgNotic(data);
+  });
+  socket.on('error', (data) => {
+    const [type, msg] = data.split(':');
+    closeConnect();
+    systemMsgNotic({ type, message: msg });
+  });
 };
 
 // 创建连接
-export const openConnect = () => {
+export const openConnect = (room = 'own') => {
   if (!socket) {
-    socket = io(BASE_API);
+    const { serviceApi = '' } = store.getState().barrageConfigure.toJS();
+    const { token } = store.getState().user.toJS();
+    socket = io(serviceApi, {
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            token
+          }
+        }
+      },
+      query: {
+        room
+      }
+    });
     initEvents();
+    return;
   }
   if (!socket.connected) {
     socket.open();
   }
 };
 
-// 断开连接
-export const closeConnect = () => {
-  if (!socket) {
-    return true;
-  }
-  socket.close();
-  if (reconnectingMsgHide) {
-    reconnectingMsgHide();
-  }
-  message.success('成功关闭弹幕');
-  return true;
+// 发送弹幕
+export const sendBarrage = (data) => {
+  socket.emit('addBarrage', data);
 };
 
 export default {};

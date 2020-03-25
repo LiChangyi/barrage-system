@@ -12,7 +12,7 @@ const tempData = {
   position: _.get(fileConfigure, 'position', barrageDefaultConfigure.position),
   colorful: _.get(fileConfigure, 'colorful', barrageDefaultConfigure.colorful),
   serviceApi: _.get(fileConfigure, 'serviceApi', barrageDefaultConfigure.serviceApi),
-  open: false,
+  fontColor: _.get(fileConfigure, 'fontColor', barrageDefaultConfigure.fontColor),
   openWindow: false,
 };
 const defaultState = fromJS(tempData);
@@ -24,8 +24,8 @@ export default (state = defaultState, action) => {
     const { name, value } = action.data;
     const update = { [name]: value };
     const data = state.merge(fromJS(update));
-    if (['position', 'colorful', 'serviceApi'].includes(name)) {
-      const saveData = _.pick(data.toJSON(), ['position', 'colorful', 'serviceApi']);
+    if (['position', 'colorful', 'serviceApi', 'fontColor'].includes(name)) {
+      const saveData = _.pick(data.toJSON(), ['position', 'colorful', 'serviceApi', 'fontColor']);
       // 保存数据到本地
       saveFile(BARRAGE_CONFIGURE, saveData);
       // 同步到全局变量中

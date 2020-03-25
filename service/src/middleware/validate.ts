@@ -1,9 +1,11 @@
 import * as jwt from 'jsonwebtoken';
 import * as _ from 'lodash';
+import * as moment from 'moment';
+
 import boom from '../utils/boom';
-import * as Joi from '@hapi/joi';
 import { TOKEN_SUFFIX } from "../utils/constant";
 import { IContext } from "../types";
+import { createToken } from '../utils';
 
 /**
  * 传递的参数校验 和 授权校验

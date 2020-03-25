@@ -34,7 +34,6 @@ const Room = () => {
     message.loading(`${text}中请稍等`, 0);
     updateRoom(roomInfo._id, { status: val })
       .then(() => {
-        message.success(`成功${text}`);
         setRoomInfo(_.assign({}, roomInfo, { status: val }));
       });
   };

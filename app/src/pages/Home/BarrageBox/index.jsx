@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
-import { ExclamationCircleFilled } from '@ant-design/icons';
+import dayjs from 'dayjs';
 
 const preCls = 'home';
 
@@ -24,31 +24,26 @@ class BarrageBox extends Component {
   }
 
   render() {
-    const { open, barrageList } = this.props;
-    const className = open ? `${preCls}-barrage` : `${preCls}-barrage ${preCls}-no-open`;
+    const { barrageList } = this.props;
     return (
       <div
         ref={this.el}
-        className={className}
+        className={`${preCls}-barrage`}
       >
-        {open ? (
+        {
           barrageList.map((item) => (
-            <div key={item.id} className={`${preCls}-barrage-item`}>
+            <div key={item._id} className={`${preCls}-barrage-item`}>
+              <span className={`${preCls}-barrage-item-time`}>
+                {dayjs(item.createAt).format('HH:mm:ss')}
+              </span>
               <span className={`${preCls}-barrage-item-username`}>
                 {item.nickname}
                 :
               </span>
-              <span className={`${preCls}-barrage-item-content`}>{item.content}</span>
+              <span className={`${preCls}-barrage-item-content`} style={{ color: item.color }}>{item.content}</span>
             </div>
           ))
-        ) : (
-          <div className={`${preCls}-no-open-wrap`}>
-            <ExclamationCircleFilled />
-            <span className={`${preCls}-no-open-message`}>
-              弹幕开关未打开
-            </span>
-          </div>
-        )}
+        }
       </div>
     );
   }

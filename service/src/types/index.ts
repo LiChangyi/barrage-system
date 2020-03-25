@@ -1,4 +1,5 @@
 import { Context } from 'koa';
+import { Socket } from 'socket.io';
 
 // koa context
 export interface IContext extends Context {
@@ -18,4 +19,19 @@ export interface IRoute {
     query?: object;
   };
   handle: any;
+}
+
+export interface ITokenUser {
+  uid: string;
+  role: string;
+  nickname: string;
+  iat: number;
+  exp: number;
+}
+
+declare module "socket.io" {
+  export interface Socket {
+    user: ITokenUser;
+    currentRoom: string;
+  }
 }

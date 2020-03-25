@@ -6,6 +6,7 @@ export default () => {
   const window = new BrowserWindow({
     width: 1000,
     height: 600,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       // 处理跨域，桌面端处理

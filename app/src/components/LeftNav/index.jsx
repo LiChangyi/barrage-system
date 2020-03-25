@@ -5,8 +5,8 @@ import './index.scss';
 
 const preCls = 'left-nav';
 const routerMap = [
-  { path: '/', name: '弹幕设置' },
-  { path: '/user', name: '用户中心' },
+  { path: '/', name: '弹幕窗口' },
+  { path: '/user', name: '个人中心' },
 ];
 
 const Header = () => {

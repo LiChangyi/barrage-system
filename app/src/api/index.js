@@ -36,6 +36,7 @@ instance.interceptors.response.use((response) => {
   return response;
 }, (err) => {
   // 销毁所有的 message
+  message.destroy();
   const msg = _.get(err, 'response.data.message') || '网络错误';
   const status = _.get(err, 'response.status');
   if (status === 401) {
