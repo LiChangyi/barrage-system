@@ -16,6 +16,11 @@ const AsyncDisplay = Loadable({
   loading: Loading,
 });
 
+const AsyncBarrageList = Loadable({
+  loader: () => import('pages/BarrageList'),
+  loading: Loading
+});
+
 
 export const displayRoute = {
   path: '/display', name: '弹幕显示', component: AsyncDisplay
@@ -26,6 +31,12 @@ export default [
     path: '/',
     name: '弹幕窗口',
     component: AsyncHome,
+    shouldAuth: true
+  },
+  {
+    path: '/barrage-list',
+    name: '弹幕列表',
+    component: AsyncBarrageList,
     shouldAuth: true
   },
   {

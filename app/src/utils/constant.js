@@ -6,7 +6,7 @@ export const barrageDefaultConfigure = {
   fontColor: '#000'
 };
 
-// 保存弹幕窗口到本地的KEY 
+// 保存弹幕窗口到本地的KEY
 export const BARRAGE_CONFIGURE = 'barrageConfigure';
 // 保存用户数据到本地
 export const SAVE_USERINFO = 'userinfo';

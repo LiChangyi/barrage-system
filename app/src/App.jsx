@@ -1,6 +1,11 @@
 import React from 'react';
 import { message } from 'antd';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
 import { connect } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
 

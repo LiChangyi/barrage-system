@@ -58,7 +58,9 @@ class BarrageQueue {
       dom.style.top = `${find.y}px`;
       dom.style.width = `${width}px`;
       if (this.colorful) {
-        dom.style.color = task.color;
+        if (!['#000', '#000000'].includes(task.color)) {
+          dom.style.color = task.color;
+        }
       }
       const duration = 10000 + (2 * task.duration);
       dom.style.animation = `run ${duration}ms linear`;

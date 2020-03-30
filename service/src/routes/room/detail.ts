@@ -1,5 +1,5 @@
 import { IRoute, IContext } from "../../types";
-import { Room } from "../../model/room";
+import { Room, IRoom } from "../../model/room";
 import { User, IUser } from "../../model/user";
 
 const detail: IRoute = {
@@ -14,8 +14,17 @@ const detail: IRoute = {
     try {
       const user:IUser | null = await User.findOne({ _id: uid });
       // 根据uid去寻找房间
-      const exist = await Room.findOne({ user });
+      const exist: IRoom | null = await Room.findOne({ user });
       if (exist) {
+        const redisRoomKey = `room:${exist._id}`;
+        const redisOwnKey = `userRoom:${uid}`;
+        if (exist.status) {
+          await ctx.redis.setAsync(redisRoomKey, true);
+          await ctx.redis.setAsync(redisOwnKey, String(exist._id));
+        } else {
+          await ctx.redis.delAsync(redisRoomKey);
+          await ctx.redis.delAsync(redisOwnKey);
+        }
         return ctx.body = exist;
       }
       // 没有则创建
