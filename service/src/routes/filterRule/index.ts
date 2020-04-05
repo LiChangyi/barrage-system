@@ -2,12 +2,15 @@ import * as Router from 'koa-router';
 import midValidate from '../../middleware/validate';
 import { IRoute } from '../../types';
 import list from './list';
+import add from './add';
+import remove from './remove';
+import update from './update';
 
 const router: any = new Router({
-  prefix: '/api/barrage'
+  prefix: '/api/filter-rule'
 });
 
-[list].forEach(({ method = 'get', path = '/', validate, handle }: IRoute) => {
+[add, list, remove, update].forEach(({ method = 'get', path = '/', validate, handle }: IRoute) => {
   router[method.toLocaleLowerCase()](path, midValidate(validate), handle);
 })
 

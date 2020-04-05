@@ -1,11 +1,10 @@
 // websocket 处理
-import { ipcRenderer } from 'electron';
 import io from 'socket.io-client';
 import { message } from 'antd';
 
-import { DISPLAY_WINDOW_ADD_ONE_BARRAGE } from '../utils/constant';
 import store from '../store';
 import { receiveOneBarrage } from '../store/barrage/action';
+import { syncBarrageToDisplayWin } from '../utils/showBarrageDisplayWin';
 
 let socket = null;
 // 重连时的message回调
@@ -36,7 +35,7 @@ const initEvents = () => {
     // 通知 display window
     const { openWindow } = store.getState().barrageConfigure.toJSON();
     if (openWindow) {
-      ipcRenderer.send(DISPLAY_WINDOW_ADD_ONE_BARRAGE, data);
+      syncBarrageToDisplayWin(data);
     }
   });
   socket.on('reconnect_attempt', () => {

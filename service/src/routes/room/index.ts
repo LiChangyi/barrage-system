@@ -1,5 +1,5 @@
 import * as Router from 'koa-router';
-import midVlidate from '../../middleware/validate';
+import midValidate from '../../middleware/validate';
 import { IRoute } from '../../types';
 import detail from './detail';
 import update from './update';
@@ -10,7 +10,7 @@ const router: any = new Router({
 });
 
 [detail, update].forEach(({ method = 'get', path = '/', validate, handle }: IRoute) => {
-  router[method.toLocaleLowerCase()](path, midVlidate(validate), handle);
+  router[method.toLocaleLowerCase()](path, midValidate(validate), handle);
 })
 
 export default router;

@@ -57,6 +57,11 @@ const Home = ({ barrageConfigure, propsSetBarrageConfigure }) => {
     setInputValue('');
     inputRef.current.focus();
   };
+  const handleKeyPress = (e) => {
+    if (e.charCode === 13 && !e.shiftKey) {
+      handleSend();
+    }
+  };
 
   let BarrageOpenBtnDom = (
     <Switch
@@ -108,7 +113,7 @@ const Home = ({ barrageConfigure, propsSetBarrageConfigure }) => {
         <Input.TextArea
           ref={inputRef}
           className={`${preCls}-chat-box`}
-          onPressEnter={handleSend}
+          onKeyPress={handleKeyPress}
           onChange={(e) => setInputValue(e.target.value)}
         />
         <div className={`${preCls}-tool`}>

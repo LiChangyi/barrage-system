@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import _ from 'lodash';
 
-import { SET_BARRAGR_CONFIGURE } from './actionTypes';
+import { SET_BARRAGE_CONFIGURE } from './actionTypes';
 import { readFile, saveFile } from '../../FileStorage';
 import { BARRAGE_CONFIGURE, barrageDefaultConfigure } from '../../utils/constant';
 import { syncDataToGobal } from '../../utils/func';
@@ -20,7 +20,7 @@ const defaultState = fromJS(tempData);
 syncDataToGobal(tempData);
 
 export default (state = defaultState, action) => {
-  if (action.type === SET_BARRAGR_CONFIGURE) {
+  if (action.type === SET_BARRAGE_CONFIGURE) {
     const { name, value } = action.data;
     const update = { [name]: value };
     const data = state.merge(fromJS(update));

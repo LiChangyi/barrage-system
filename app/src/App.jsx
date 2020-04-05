@@ -12,12 +12,15 @@ import { hot } from 'react-hot-loader/root';
 import Layout from 'components/Layout';
 import routes, { displayRoute } from './routes';
 
-const authMiddle = (Component, props, shouldAuth = false, userInfo = {}) => {
+const authMiddle = (Component, props, shouldAuth = false, userInfo = {}, route) => {
   const { token } = userInfo;
 
   if (!token && shouldAuth) {
     message.error('你还没有登录');
     return <Redirect to="/user" />;
+  }
+  if (route.beforeFunction) {
+    route.beforeFunction();
   }
 
   return <Component {...props} />;
@@ -39,7 +42,7 @@ const App = ({ user }) => (
               path={route.path}
               key={route.name}
               exact
-              component={(props) => authMiddle(route.component, props, route.shouldAuth, user)}
+              component={(props) => authMiddle(route.component, props, route.shouldAuth, user, route)}
             />
           ))}
         </Switch>

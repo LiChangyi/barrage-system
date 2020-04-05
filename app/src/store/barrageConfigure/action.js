@@ -1,8 +1,9 @@
 /* eslint-disable no-unreachable */
 import { ipcRenderer } from 'electron';
 
-import { SET_BARRAGR_CONFIGURE } from './actionTypes';
+import { SET_BARRAGE_CONFIGURE } from './actionTypes';
 import { DISPLAY_WINDOW_SHOW, DISPLAY_WINDOW_HIDE, CHANGE_DISPLAY_WINDOW_H } from '../../utils/constant';
+import { setKeywordTrie } from '../../utils/showBarrageDisplayWin';
 
 export const setBarrageConfigure = (data) => {
   return (dispatch) => {
@@ -10,6 +11,7 @@ export const setBarrageConfigure = (data) => {
 
     if (name === 'openWindow') {
       if (value) {
+        setKeywordTrie();
         ipcRenderer.send(DISPLAY_WINDOW_SHOW);
       } else {
         ipcRenderer.send(DISPLAY_WINDOW_HIDE);
@@ -21,7 +23,7 @@ export const setBarrageConfigure = (data) => {
       });
     }
     dispatch({
-      type: SET_BARRAGR_CONFIGURE,
+      type: SET_BARRAGE_CONFIGURE,
       data
     });
   };

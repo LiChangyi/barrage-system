@@ -27,7 +27,9 @@
 		"prefer-promise-reject-errors": "off",
 		"no-underscore-dangle": "off",
 		"jsx-a11y/click-events-have-key-events": "off",
-		"jsx-a11y/interactive-supports-focus": "off"
+		"jsx-a11y/interactive-supports-focus": "off",
+		"max-classes-per-file": "off",
+		"max-len": "warn"
 	},
 	"settings": {
 		"import/resolver": {
