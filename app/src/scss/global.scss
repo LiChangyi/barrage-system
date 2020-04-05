@@ -1,4 +1,21 @@
 html, body, #root {
   height: 100%;
   width: 100%;
+  overflow: hidden;
+}
+.add-btn {
+  font-size: 16px;
+  margin-left: 8px;
+  vertical-align: text-bottom;
+  cursor: pointer;
+  &:hover {
+    color: #1890ff;
+  }
+}
+.status-point {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
 }

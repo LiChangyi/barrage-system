@@ -1,12 +1,32 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { message } from 'antd';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
+import { connect } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
 
 import Layout from 'components/Layout';
-
 import routes, { displayRoute } from './routes';
 
-const App = () => (
+const authMiddle = (Component, props, shouldAuth = false, userInfo = {}, route) => {
+  const { token } = userInfo;
+
+  if (!token && shouldAuth) {
+    message.error('你还没有登录');
+    return <Redirect to="/user" />;
+  }
+  if (route.beforeFunction) {
+    route.beforeFunction();
+  }
+
+  return <Component {...props} />;
+};
+
+const App = ({ user }) => (
   <Router>
     <Switch>
       <Route
@@ -22,7 +42,7 @@ const App = () => (
               path={route.path}
               key={route.name}
               exact
-              component={route.component}
+              component={(props) => authMiddle(route.component, props, route.shouldAuth, user, route)}
             />
           ))}
         </Switch>
@@ -31,4 +51,6 @@ const App = () => (
   </Router>
 );
 
-export default hot(App);
+export default connect(
+  (state) => ({ user: state.user.toJS() })
+)(hot(App));

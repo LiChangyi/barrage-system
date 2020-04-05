@@ -1,0 +1,32 @@
+.login {
+  text-align: center;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+  &-wrap {
+    height: 80%;
+    width: 600px;
+    position: relative;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(255,255,255, .3);
+  }
+  &-title {
+    color: #302c2c;
+    font-size: 32px;
+  }
+  .ant-form-item-label label {
+    color: #302c2c;
+  }
+  &-info {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    margin: 0 -20px;
+    text-align: center;
+    font-size: 16px;
+    color: #302c2c;
+  }
+}

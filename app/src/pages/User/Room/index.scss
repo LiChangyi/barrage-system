@@ -1,0 +1,25 @@
+.room {
+  flex: 1;
+  padding-top: 24px;
+  &-btn {
+    cursor: pointer;
+  }
+  &-switch-wrap {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .ant-switch {
+      height: 58px;
+      width: 320px;
+      &::after {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+      }
+      .ant-switch-inner {
+        font-size: 20px;
+      }
+    }
+  }
+}

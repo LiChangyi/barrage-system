@@ -1,11 +1,11 @@
-import { BaseContext } from 'koa';
 import boom from '../utils/boom';
+import { IContext } from '../types';
 
 /**
  * 自定义 错误的信息返回 信息 
  */
 
-export default async (ctx: any, next: any) => {
+export default async (ctx: IContext, next: any) => {
   try {
     await next();
     // 重写 404 和 405 的消息

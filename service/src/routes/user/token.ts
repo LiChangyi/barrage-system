@@ -3,7 +3,7 @@
  * 如果登录失败超过 5次 进行 ip 锁定
  */
 import * as Joi from '@hapi/joi';
-import { User } from '../../model/user';
+import { User, IUser } from '../../model/user';
 import { md5, createToken } from '../../utils';
 import boom from '../../utils/boom';
 import { PWD_ERROR } from '../../utils/constant';
@@ -29,7 +29,7 @@ const route:IRoute = {
       if (count >= PWD_ERROR.count) {
         return boom(400, ctx, `登录失败次数已经超过${count}次，请${convertTime(time, PWD_ERROR.time)}过后再次尝试`);
       }
-      const user = await User.findOne({
+      const user: IUser | null = await User.findOne({
         username,
         password: md5(password)
       }, {

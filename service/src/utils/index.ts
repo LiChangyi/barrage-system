@@ -17,7 +17,8 @@ export const md5 = (str: string) => {
 export const createToken = async (user: IUser) => {
   return await jwt.sign({
     uid: user._id,
-    role: user.role
+    role: user.role,
+    nickname: user.nickname
   }, TOKEN_SUFFIX, {
     expiresIn: TOKEN_EXPIRES
   });

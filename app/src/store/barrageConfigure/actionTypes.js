@@ -1,3 +1,3 @@
-export const SET_BARRAGR_CONFIGURE = 'SET_BARRAGR_CONFIGURE';
+export const SET_BARRAGE_CONFIGURE = 'SET_BARRAGE_CONFIGURE';
 
 export default {};

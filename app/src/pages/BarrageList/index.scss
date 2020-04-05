@@ -1,0 +1,17 @@
+.barrage-list {
+  overflow-y: scroll;
+  &-header {
+    padding: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &-table {
+    &-user {
+      cursor: pointer;
+    }
+    &-content {
+      max-height: 120px;
+      overflow-y: scroll;
+    }
+  }
+}
