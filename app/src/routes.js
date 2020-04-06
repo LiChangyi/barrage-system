@@ -45,7 +45,7 @@ export default [
   },
   {
     path: '/barrage-list',
-    name: '弹幕列表',
+    name: '弹幕统计',
     component: AsyncBarrageList,
     shouldAuth: true
   },
