@@ -50,7 +50,6 @@ const BarrageList = () => {
   const [filter, setFilter] = useState({
     page: 1,
     size: 10,
-    type: 'send',
     searchType: 'content',
     search: '',
     startAt: moment().startOf('month').valueOf(),

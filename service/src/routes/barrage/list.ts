@@ -16,7 +16,6 @@ const List: IRoute = {
     query: Joi.object({
       page: Joi.number().min(1).description('获取页码'),
       size: Joi.number().min(1).max(100).description('每页个数'),
-      type: Joi.string().valid('send', 'receive').description('查询来源是:我发送/我接收'),
       search: Joi.string().allow('').description('关键词搜索'),
       searchType: Joi.string().valid('content', 'nickname', 'userId').description('关键词搜索的类型'),
       startAt: Joi.number().description('开始时间'),
@@ -28,7 +27,6 @@ const List: IRoute = {
       page = 1,
       size = 10,
       search = '',
-      type = 'send',
       searchType = 'content',
       startAt = moment().startOf('day').valueOf(),
       endAt = moment().valueOf()
@@ -61,21 +59,16 @@ const List: IRoute = {
         }
       }
 
-      if (type === 'send' && !q.user) {
-        q.user = uid;
-      } else {
-        // 获取我的room
-        const roomId: null | IRoom = await Room.findOne({ user: uid });
-        if (!roomId) {
-          ctx.body = {
-            list: [],
-            count: 0
-          };
-          return;
-        }
-        q.room = roomId._id;
+      const roomId: null | IRoom = await Room.findOne({ user: uid });
+      if (!roomId) {
+        ctx.body = {
+          list: [],
+          count: 0
+        };
+        return;
       }
-
+      q.room = roomId._id;
+      console.log(q);
       const list: IBarrage[] = await Barrage
         .find(q)
         .populate([

@@ -15,7 +15,6 @@ const echart: IRoute = {
   validate: {
     auth: ['user', 'admin'],
     query: Joi.object({
-      type: Joi.string().valid('send', 'receive').description('查询来源是:我发送/我接收'),
       search: Joi.string().allow('').description('关键词搜索'),
       searchType: Joi.string().valid('content', 'nickname', 'userId').description('关键词搜索的类型'),
       startAt: Joi.number().description('开始时间'),
@@ -25,7 +24,6 @@ const echart: IRoute = {
   handle: async (ctx: IContext) => {
     const {
       search = '',
-      type = 'send',
       searchType = 'content',
       startAt = moment().startOf('day').valueOf(),
       endAt = moment().valueOf()
@@ -58,20 +56,16 @@ const echart: IRoute = {
         }
       }
 
-      if (type === 'send' && !q.user) {
-        q.user = Types.ObjectId(uid as string);
-      } else {
-        // 获取我的room
-        const roomId: null | IRoom = await Room.findOne({ user: uid });
-        if (!roomId) {
-          ctx.body = {
-            list: [],
-            count: 0
-          };
-          return;
-        }
-        q.room = Types.ObjectId(roomId._id);
+      const roomId: null | IRoom = await Room.findOne({ user: uid });
+      if (!roomId) {
+        ctx.body = {
+          list: [],
+          count: 0
+        };
+        return;
       }
+      q.room = Types.ObjectId(roomId._id);
+
       const contentStat = await Barrage.aggregate([
         {
           $match: q,

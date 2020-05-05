@@ -20,6 +20,7 @@ module.exports = {
     path: DIST_PATH,
     filename: 'js/[name].js',
     chunkFilename: 'js/[name].chunk.js',
+    publicPath: '/'
   },
   module: {
     rules: [

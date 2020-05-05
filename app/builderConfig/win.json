@@ -1,0 +1,21 @@
+{
+  "productName": "barrage-system",
+  "appId": "barrage-system.desktop.mac",
+  "icon": "icon.icns",
+  "files": [
+    "main.js",
+    "**/*.js",
+    "**/*.css",
+    "**/*.html"
+  ],
+  "directories": {
+    "buildResources": "resources",
+    "output": "build",
+    "app": "./dist"
+  },
+  "win": {
+    "target": [
+      "zip"
+    ]
+  }
+}

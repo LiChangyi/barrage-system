@@ -4,6 +4,8 @@ const autoprefixer = require('autoprefixer');
 const path = require('path');
 
 const DIST_PATH = path.resolve(__dirname, '../dist/renderer');
+const isDev = process.env.NODE_ENV === 'development';
+const publicPath = isDev ? '/' : './';
 
 module.exports = {
   entry: ['./src/index.js'],
@@ -19,8 +21,9 @@ module.exports = {
   },
   output: {
     path: DIST_PATH,
-    filename: 'js/[name].js',
-    chunkFilename: 'js/[name].chunk.js',
+    filename: './js/[name].js',
+    chunkFilename: './js/[name].chunk.js',
+    publicPath: ''
   },
   module: {
     rules: [

@@ -1,20 +1,37 @@
-import React from 'react';
-import { Tag } from 'antd';
+import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 
-import LogoSvg from 'images/logo.svg';
 import './index.scss';
+import { getOpenRoomListApi } from '../../api/room';
 
 const preCls = 'home';
 
-const Home = () => {
+const Home = ({ history }) => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    getOpenRoomListApi()
+      .then((res) => {
+        setData(res.data);
+      });
+  }, []);
+
   return (
     <div className={preCls}>
-      <img className={`${preCls}-logo`} src={LogoSvg} alt="logo" />
-      <Tag
-        color="#108ee9"
-      >
-        react 脚手架
-      </Tag>
+      <h2 className={`${preCls}-title`}>房间列表</h2>
+      <div className={`${preCls}-wrap`}>
+        {data.map((item) => (
+          <div
+            className={`${preCls}-item`}
+            key={item._id}
+            onClick={() => history.push(`/room/${item._id}`)}
+          >
+            <div className={`${preCls}-item-roomname`}>{item.roomname}</div>
+            <div className={`${preCls}-item-nickname`}>
+              {_.get(item, 'user.nickname', '-')}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,5 +1,4 @@
-import { BrowserWindow } from 'electron';
-import path from 'path';
+import { BrowserWindow, app } from 'electron';
 import isDev from '../../utils/isDev';
 
 export default () => {
@@ -13,8 +12,12 @@ export default () => {
       webSecurity: false
     }
   });
-  window.webContents.openDevTools({ mode: 'detach' });
-  const url = isDev() ? 'http://localhost:8080' : `file://${path.resolve(__dirname, '..')}/dist/renderer/index.html`;
+
+  let url = `file://${app.getAppPath()}/dist/renderer/index.html`;
+  if (isDev()) {
+    window.webContents.openDevTools({ mode: 'detach' });
+    url = 'http://127.0.0.1:8080';
+  }
   window.loadURL(url);
 
   return window;

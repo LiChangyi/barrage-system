@@ -19,7 +19,7 @@ class BarrageQueue {
     // 当前屏幕宽度
     this.elWidth = this.el.clientWidth;
     // 当前弹幕集合
-    this.tasks = [];
+    this.tasks = this.tasks || [];
     // 当前高度
     this.elHeight = this.el.clientHeight;
     // 轨道数目
@@ -64,7 +64,6 @@ class BarrageQueue {
       }
       const duration = 10000 + (2 * task.duration);
       dom.style.animation = `run ${duration}ms linear`;
-      // clear
       dom.addEventListener('animationend', () => {
         // eslint-disable-next-line no-unused-vars
         let removed = this.el.removeChild(dom);

@@ -1,0 +1,36 @@
+.room {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  &-barrage {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 12px;
+    &-item {
+      font-size: 14px;
+      &-time {
+        margin-right: 4px;
+        opacity: 0.6;
+      }
+      &-username {
+        margin-right: 4px;
+      }
+      &-content {
+        word-break: break-all;
+      }
+    }
+  }
+  &-input-box {
+    flex-basis: 32px;
+    display: flex;
+    .ant-input {
+      flex: 1;
+    }
+  }
+  &-select-color {
+    .ant-select-item {
+      height: 20px;
+      min-height: 20px;
+    }
+  }
+}

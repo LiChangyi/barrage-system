@@ -1,0 +1,40 @@
+{
+  "productName": "barrage-system",
+  "appId": "barrage-system.desktop.mac",
+  "icon": "icon.icns",
+  "files": [
+    "main.js",
+    "**/*.js",
+    "**/*.css",
+    "**/*.html"
+  ],
+  "directories": {
+    "buildResources": "resources",
+    "output": "build",
+    "app": "./dist"
+  },
+  "asar": true,
+  "dmg": {
+    "artifactName": "barrage-system-v${version}.${ext}",
+    "contents": [
+      {
+        "x": 130,
+        "y": 220
+      },
+      {
+        "x": 410,
+        "y": 220,
+        "type": "link",
+        "path": "/Applications"
+      }
+    ]
+  },
+  "mac": {
+    "target": "dmg",
+    "extendInfo": {
+      "CFBundleURLSchemes": [
+        "barrage-system"
+      ]
+    }
+  }
+}
