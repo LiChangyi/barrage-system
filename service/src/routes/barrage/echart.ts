@@ -7,15 +7,14 @@ import { IRoom, Room } from '../../model/room';
 import { IUser, User } from '../../model/user';
 import { Types } from 'mongoose';
 import boom from '../../utils/boom';
+import { calcGranularity } from './util';
 
-const List: IRoute = {
+const echart: IRoute = {
   method: 'GET',
-  path: '/list',
+  path: '/echart',
   validate: {
     auth: ['user', 'admin'],
     query: Joi.object({
-      page: Joi.number().min(1).description('获取页码'),
-      size: Joi.number().min(1).max(100).description('每页个数'),
       search: Joi.string().allow('').description('关键词搜索'),
       searchType: Joi.string().valid('content', 'nickname', 'userId').description('关键词搜索的类型'),
       startAt: Joi.number().description('开始时间'),
@@ -24,8 +23,6 @@ const List: IRoute = {
   },
   handle: async (ctx: IContext) => {
     const {
-      page = 1,
-      size = 10,
       search = '',
       searchType = 'content',
       startAt = moment().startOf('day').valueOf(),
@@ -43,7 +40,7 @@ const List: IRoute = {
       } else if (searchType === 'nickname') {
         const findUsers: IUser [] = await User.find({ nickname: { $regex: reg } });
         q.user = {
-          $in: findUsers.map(user => user._id)
+          $in: findUsers.map(user => Types.ObjectId(user._id))
         }
       } else if (searchType === 'userId') {
         let _id: Types.ObjectId | null = null;
@@ -55,7 +52,7 @@ const List: IRoute = {
         }
         const findUsers: IUser [] = await User.find({ _id });
         q.user = {
-          $in: findUsers.map(user => user._id)
+          $in: findUsers.map(user => Types.ObjectId(user._id))
         }
       }
 
@@ -67,25 +64,57 @@ const List: IRoute = {
         };
         return;
       }
-      q.room = roomId._id;
-      const list: IBarrage[] = await Barrage
-        .find(q)
-        .populate([
-          { path: 'user', select: 'nickname username' },
-          { path: 'room', select: 'roomname' }
-        ])
-        .skip((page - 1) * size)
-        .limit(size * 1)
-        .sort({ createAt: -1 });
-      const count: number = await Barrage.countDocuments(q);
+      q.room = Types.ObjectId(roomId._id);
+
+      const contentStat = await Barrage.aggregate([
+        {
+          $match: q,
+        },
+        {
+          $group: {
+            _id: '$content',
+            total: { $sum: 1 }
+          }
+        },
+        {
+          $sort: {
+            "total": -1
+          }
+        },
+        {
+          $limit: 10
+        }
+      ]);
+      const endIndex= calcGranularity(startAt, endAt);
+      const countStat = await Barrage.aggregate([
+        {
+          $match: q
+        },
+        {
+          $project: {
+            time: {$substr: [{"$add": [ "$createAt", 28800000]}, 0, endIndex] }
+          }
+        },
+        {
+          $group: {
+            _id: "$time",
+            total: {$sum: 1},
+          }
+        },
+        {
+          $sort: {
+            "_id": 1
+          }
+        }
+      ]);
       ctx.body = {
-        list,
-        count
-      }
+        contentStat,
+        countStat
+      };
     } catch (err) {
       ctx.throw(err);
     }
   }
 }
 
-export default List;
+export default echart;

@@ -33,7 +33,7 @@ export const openDisplayWindow = () => {
   window.setIgnoreMouseEvents(true);
   // window.webContents.openDevTools({ mode: 'detach' });
 
-  const url = isDev() ? 'http://localhost:8080/display' : `file://${path.resolve(__dirname, '..')}/dist/renderer/index.html/display`;
+  const url = isDev() ? 'http://127.0.0.1:8080/display' : `file://${path.resolve(__dirname, '..')}/dist/renderer/index.html/display`;
   window.loadURL(url);
 
   displayWindow = window;

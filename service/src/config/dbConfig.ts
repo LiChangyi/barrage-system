@@ -17,7 +17,7 @@ interface IConfig {
 
 const config: IConfig = {
   mongodb: {
-    url: 'mongodb://localhost:27017/barrage',
+    url: 'mongodb://127.0.0.1:27017/barrage',
     user: 'barrage',
     password: '123456',
     authSource: 'admin'

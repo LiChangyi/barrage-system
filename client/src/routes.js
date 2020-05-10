@@ -24,13 +24,13 @@ export default [
     shouldAuth: true,
   },
   {
-    path: '/room',
+    path: '/room/:id',
     name: '房间',
     component: AsyncRoom,
     shouldAuth: true,
   },
   {
-    path: '/Login',
+    path: '/login',
     name: '登录',
     component: AsyncLogin,
     shouldAuth: false,

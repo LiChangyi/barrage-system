@@ -7,6 +7,7 @@ const baseConfig = require('./webpack.base.js');
 
 module.exports = merge(baseConfig, {
   mode: 'production',
+  // target: 'electron-preload',
   devtool: 'cheap-module-source-map',
   module: {
     rules: [
@@ -48,8 +49,7 @@ module.exports = merge(baseConfig, {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[id].css',
+      filename: './css/main.css'
     }),
   ],
 });

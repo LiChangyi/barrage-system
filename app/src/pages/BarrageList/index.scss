@@ -4,6 +4,15 @@
     padding: 4px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    &-icon {
+      font-size: 20px;
+      cursor: pointer;
+      transition: color .6s;
+      &:hover {
+        color: #1890ff;
+      }
+    }
   }
   &-table {
     &-user {

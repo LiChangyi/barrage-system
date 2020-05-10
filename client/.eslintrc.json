@@ -22,9 +22,16 @@
 		"react/prop-types": "off",
 		"import/no-extraneous-dependencies": "off",
 		"comma-dangle": "off",
+		"import/prefer-default-export": "off",
 		"react/jsx-props-no-spreading": "off",
+		"no-plusplus": "off",
 		"prefer-promise-reject-errors": "off",
-		"import/prefer-default-export": "off"
+		"no-underscore-dangle": "off",
+		"jsx-a11y/click-events-have-key-events": "off",
+		"jsx-a11y/interactive-supports-focus": "off",
+		"max-classes-per-file": "off",
+		"max-len": "warn",
+		"jsx-a11y/no-static-element-interactions": "off"
 	},
 	"settings": {
 		"import/resolver": {

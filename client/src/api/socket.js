@@ -1,10 +1,7 @@
 // websocket 处理
 import io from 'socket.io-client';
 import { message } from 'antd';
-
-import store from '../store';
-import { receiveOneBarrage } from '../store/barrage/action';
-import { syncBarrageToDisplayWin } from '../utils/showBarrageDisplayWin';
+import { readUserInfo } from '../util/tool';
 
 let socket = null;
 // 重连时的message回调
@@ -12,7 +9,6 @@ let reconnectingMsgHide = null;
 
 // 断开连接
 export const closeConnect = () => {
-  // message.success('断开连接成功');
   if (!socket) {
     return true;
   }
@@ -30,16 +26,8 @@ const initEvents = () => {
       reconnectingMsgHide();
     }
   });
-  socket.on('receiveBarrage', (data) => {
-    store.dispatch(receiveOneBarrage(data));
-    // 通知 display window
-    const { openWindow } = store.getState().barrageConfigure.toJSON();
-    if (openWindow) {
-      syncBarrageToDisplayWin(data);
-    }
-  });
   socket.on('reconnect_attempt', () => {
-    const { token } = store.getState().user.toJS();
+    const { token } = readUserInfo();
     socket.io.opts.extraHeaders = {
       token
     };
@@ -73,9 +61,8 @@ const initEvents = () => {
 // 创建连接
 export const openConnect = (room = 'own') => {
   if (!socket) {
-    const { serviceApi = '' } = store.getState().barrageConfigure.toJS();
-    const { token } = store.getState().user.toJS();
-    socket = io(serviceApi, {
+    const { token } = readUserInfo();
+    socket = io('/', {
       transportOptions: {
         polling: {
           extraHeaders: {
@@ -88,41 +75,17 @@ export const openConnect = (room = 'own') => {
       }
     });
     initEvents();
-    return;
+    return socket;
   }
   if (!socket.connected) {
     socket.open();
   }
+  return socket;
 };
 
 // 发送弹幕
 export const sendBarrage = (data) => {
   socket.emit('addBarrage', data);
-};
-
-// 发送模拟弹幕
-export const sendMockBarrage = () => {
-  for (let i = 0; i < 1000; i++) {
-    const data = {
-      color: '#000',
-      content: `测试弹幕${i}`,
-      createAt: '2020-04-16T13:49:12.716Z',
-      room: {
-        _id: '5e6e2f7ef38942838cd77a89',
-        roomname: '李昌义的直播间'
-      },
-      user: {
-        _id: '5e5e3f06a7f6b11b1498dc16',
-        username: 'licy',
-        nickname: '李昌义'
-      },
-      __v: 0,
-      _id: `5e9862587e8f9dafa895d04${i}`
-    };
-    store.dispatch(receiveOneBarrage(data));
-    // 通知 display window
-    syncBarrageToDisplayWin(data);
-  }
 };
 
 export default {};

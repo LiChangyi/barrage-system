@@ -12,7 +12,7 @@ axios.interceptors.request.use = instance.interceptors.request.use;
 // request 拦截器
 instance.interceptors.request.use((request) => {
   // 每次发送请求将 token 放在 header 中
-  const userStr = window.localStorage.getItem('user') || '{}';
+  const userStr = window.localStorage.getItem('userinfo') || '{}';
   const { token = '' } = JSON.parse(userStr);
   if (token) {
     request.headers.token = token;
