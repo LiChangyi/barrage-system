@@ -1,32 +1,36 @@
-import Loadable from 'react-loadable';
-import Loading from 'components/Loading';
-
+// import Loadable from 'react-loadable';
+// import Loading from 'components/Loading';
+import AsyncHome from 'pages/Home';
+import AsyncUser from 'pages/User';
+import AsyncDisplay from 'pages/Display';
+import AsyncBarrageList from 'pages/BarrageList';
+import AsyncFilterConfigure from 'pages/FilterConfigure';
 import init from './utils/init';
 
-const AsyncHome = Loadable({
-  loader: () => import('pages/Home'),
-  loading: Loading,
-});
+// const AsyncHome = Loadable({
+//   loader: () => import('pages/Home'),
+//   loading: Loading,
+// });
 
-const AsyncUser = Loadable({
-  loader: () => import('pages/User'),
-  loading: Loading,
-});
+// const AsyncUser = Loadable({
+//   loader: () => import('pages/User'),
+//   loading: Loading,
+// });
 
-const AsyncDisplay = Loadable({
-  loader: () => import('pages/Display'),
-  loading: Loading,
-});
+// const AsyncDisplay = Loadable({
+//   loader: () => import('pages/Display'),
+//   loading: Loading,
+// });
 
-const AsyncBarrageList = Loadable({
-  loader: () => import('pages/BarrageList'),
-  loading: Loading
-});
+// const AsyncBarrageList = Loadable({
+//   loader: () => import('pages/BarrageList'),
+//   loading: Loading
+// });
 
-const AsyncFilterConfigure = Loadable({
-  loader: () => import('pages/FilterConfigure'),
-  loading: Loading
-});
+// const AsyncFilterConfigure = Loadable({
+//   loader: () => import('pages/FilterConfigure'),
+//   loading: Loading
+// });
 
 
 export const displayRoute = {

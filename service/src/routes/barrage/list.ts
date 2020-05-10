@@ -68,7 +68,6 @@ const List: IRoute = {
         return;
       }
       q.room = roomId._id;
-      console.log(q);
       const list: IBarrage[] = await Barrage
         .find(q)
         .populate([

@@ -7,7 +7,7 @@ const baseConfig = require('./webpack.base.js');
 
 module.exports = merge(baseConfig, {
   mode: 'production',
-  target: 'electron-preload',
+  // target: 'electron-preload',
   devtool: 'cheap-module-source-map',
   module: {
     rules: [

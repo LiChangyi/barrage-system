@@ -2,6 +2,7 @@
   "name": "barrage-system",
   "version": "0.0.1",
   "main": "./dist/main.js",
+  "homepage":".",
   "private": true,
   "scripts": {
     "start": "npm run dev",
